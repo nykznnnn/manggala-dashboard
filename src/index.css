@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+/* =========================
+   THEME VARIABLES
+========================= */
+
+:root.light {
+  --bg: #f1f5f9;
+
+  --card: #ffffff;
+  --card-2: #f8fafc;
+
+  --text: #0f172a;
+  --text-soft: #64748b;
+
+  --border: rgba(15,23,42,0.08);
+
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+
+  --success: #16a34a;
+  --warning: #ca8a04;
+  --danger: #dc2626;
+
+  --shadow:
+    0 10px 30px rgba(15,23,42,0.08);
+}
+
+:root.dark {
+  --bg: #0b1120;
+
+  --card: #111827;
+  --card-2: #1f2937;
+
+  --text: #f8fafc;
+  --text-soft: #94a3b8;
+
+  --border: rgba(255,255,255,0.06);
+
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+
+  --success: #22c55e;
+  --warning: #facc15;
+  --danger: #ef4444;
+
+  --shadow:
+    0 10px 40px rgba(0,0,0,0.35);
+}
+
+/* =========================
+   RESET
+========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================
+   BODY
+========================= */
+
+body {
+  background: var(--bg);
+
+  color: var(--text);
+
+  font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(100,116,139,0.4);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
