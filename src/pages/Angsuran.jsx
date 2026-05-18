@@ -207,7 +207,7 @@ const filteredClients = [...clients]
 
                 {Array.from({ length: 48 }).map((_, i) => {
                   const angsuran = client.angsuran?.[i];
-                  const active = isMonthActive(client.tanggalCair, i);
+                  const active = true;
                   const cellKey = `${client.id}-${i}`;
 
                   return (
