@@ -30,26 +30,24 @@ export default function ClientDetail() {
     );
   }
 
-const angsuran = client.angsuran || [];
-
-/* TOTAL NOMINAL TALANGAN
-   hanya hitung warna hijau */
-const totalTalangan = angsuran
-  .filter((a) => a.warna === "hijau")
-  .reduce(
-    (acc, a) => acc + (a.amount || 0),
-    0
-  );
+const angsuran = Array.isArray(client.angsuran)
+  ? client.angsuran
+  : [];
 
 /* JUMLAH TALANGAN
-   hanya hitung warna hijau */
+   hitung status hijau */
 const jumlahTalangan = angsuran.filter(
-  (a) => a.warna === "hijau"
+  (a) => a.status === "hijau"
 ).length;
 
 /* ANGSURAN PER BULAN */
-const angsuranBulanan =
-  client.angsuranBulanan || 0;
+const angsuranBulanan = Number(
+  client.angsuranBulanan || 0
+);
+
+/* TOTAL TALANGAN */
+const totalTalangan =
+  jumlahTalangan * angsuranBulanan;
 
   return (
     <div className="page-container">
