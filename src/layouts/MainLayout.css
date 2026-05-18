@@ -824,3 +824,22 @@ body::before {
 .table-btn:hover {
   background: #2563eb;
 }
+
+.active {
+  background: rgba(255,255,255,0.08);
+  border-left: 3px solid #4f8cff;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: auto;
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+}

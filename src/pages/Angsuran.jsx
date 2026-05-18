@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect, useRef } from "react";
 import { ClientsContext } from "../context/ClientsContext";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase/firestore";
+import { db } from "../firebase/config";
 
 export default function Angsuran() {
   const { clients = [] } = useContext(ClientsContext);

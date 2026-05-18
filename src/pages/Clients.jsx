@@ -4,13 +4,14 @@ import { ClientsContext } from "../context/ClientsContext";
 import { generateAngsuran } from "../utils/angsuran";
 
 import {
-  db,
   collection,
   addDoc,
   doc,
   updateDoc,
   deleteDoc,
-} from "../firebase/firestore";
+} from "firebase/firestore";
+
+import { db } from "../firebase/config";
 
 export default function Clients() {
   const { clients = [] } = useContext(ClientsContext);

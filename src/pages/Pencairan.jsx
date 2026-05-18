@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { ClientsContext } from "../context/ClientsContext";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase/firestore";
+import { db } from "../firebase/config";
 import { formatRupiah } from "../utils/format";
 
 export default function Pencairan() {

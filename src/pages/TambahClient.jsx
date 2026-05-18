@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "../firebase/firestore";
+import { db } from "../firebase/config";
 
 export default function TambahClient() {
   const [formData, setFormData] = useState({

@@ -1,4 +1,8 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 import MainLayout from "./layouts/MainLayout";
 
@@ -8,37 +12,58 @@ import Pencairan from "./pages/Pencairan";
 import Angsuran from "./pages/Angsuran";
 import ClientDetail from "./pages/ClientDetail";
 
+import Login from "./pages/Login";
+
+import ProtectedRoute from "./components/ProtectedRoute";
+
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
+    <Routes>
 
-        {/* =========================
-            MAIN APP (WITH LAYOUT)
-        ========================= */}
-        <Route path="/" element={<MainLayout />}>
-          
-          {/* DASHBOARD */}
-          <Route index element={<Dashboard />} />
+      <Route
+        path="/login"
+        element={<Login />}
+      />
 
-          {/* CLIENTS */}
-          <Route path="clients" element={<Clients />} />
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <MainLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route
+          index
+          element={<Dashboard />}
+        />
 
-          {/* PENCAIRAN */}
-          <Route path="pencairan" element={<Pencairan />} />
+        <Route
+          path="clients"
+          element={<Clients />}
+        />
 
-          {/* ANGSURAN */}
-          <Route path="angsuran" element={<Angsuran />} />
+        <Route
+          path="pencairan"
+          element={<Pencairan />}
+        />
 
-          {/* DETAIL CLIENT */}
-          <Route path="clients/:id" element={<ClientDetail />} />
+        <Route
+          path="angsuran"
+          element={<Angsuran />}
+        />
 
-          {/* fallback */}
-          <Route path="*" element={<Navigate to="/" />} />
+        <Route
+          path="clients/:id"
+          element={<ClientDetail />}
+        />
 
-        </Route>
+        <Route
+          path="*"
+          element={<Navigate to="/" />}
+        />
+      </Route>
 
-      </Routes>
-    </BrowserRouter>
+    </Routes>
   );
 }
