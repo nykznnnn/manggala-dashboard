@@ -1,151 +1,104 @@
-import { useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../firebase/config";
+import { useMemo, useState } from "react";
+import "./SimulasiPencairan.css";
 
-export default function TambahClient() {
-  const [formData, setFormData] = useState({
-    nama: "",
-    alamat: "",
-    progress: "REGISTRASI",
+export default function SimulasiPencairan() {
+  const [plafond, setPlafond] = useState(0);
+  const [tenor, setTenor] = useState(12);
+  const [bunga, setBunga] = useState(10);
+  const [admin, setAdmin] = useState(2);
 
-    bank: "",
-    agunan: "",
-    ketAgunan: "",
-    hubungan: "",
-    job: "",
-    company: "",
-    negara: "",
+  // ======== SIMULATION ========
+  const result = useMemo(() => {
+    const adminFee = (plafond * admin) / 100;
+    const pokokSetelahAdmin = plafond - adminFee;
 
-    plafond: "",
-    survei: "",
-    tiket: "",
+    const bungaTotal = (pokokSetelahAdmin * bunga * tenor) / 100;
+    const totalPengembalian = pokokSetelahAdmin + bungaTotal;
 
-    tanggalCair: "",
-    jaminan: "",
-    provisiADM: "",
-    blokir: "",
-    angsuranBulanan: "",
-    kwitansi: "",
-  });
+    const cicilanBulanan = totalPengembalian / tenor;
 
-  function handleChange(e) {
-    const { name, value } = e.target;
+    return {
+      adminFee,
+      pokokSetelahAdmin,
+      bungaTotal,
+      totalPengembalian,
+      cicilanBulanan,
+    };
+  }, [plafond, tenor, bunga, admin]);
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }
-
-  // =========================
-  // SAFE NUMBER CONVERTER
-  // =========================
-  const toNumber = (val) =>
-    val === "" || val === null || val === undefined
-      ? null
-      : Number(val);
-
-  // =========================
-  // SUBMIT FIRESTORE (CLEAN STRUCTURE)
-  // =========================
-  async function handleSubmit(e) {
-    e.preventDefault();
-
-    try {
-      await addDoc(collection(db, "clients"), {
-        ...formData,
-
-        plafond: toNumber(formData.plafond),
-        provisiADM: toNumber(formData.provisiADM),
-        blokir: toNumber(formData.blokir),
-        angsuranBulanan: toNumber(formData.angsuranBulanan),
-
-        // normalize date ke timestamp
-        tanggalCair: formData.tanggalCair
-          ? new Date(formData.tanggalCair).getTime()
-          : null,
-
-        // init angsuran kosong (biar semua page konsisten)
-        angsuran: [],
-      });
-
-      alert("Client berhasil ditambahkan!");
-
-      setFormData({
-        nama: "",
-        alamat: "",
-        progress: "REGISTRASI",
-        bank: "",
-        agunan: "",
-        ketAgunan: "",
-        hubungan: "",
-        job: "",
-        company: "",
-        negara: "",
-        plafond: "",
-        survei: "",
-        tiket: "",
-        tanggalCair: "",
-        jaminan: "",
-        provisiADM: "",
-        blokir: "",
-        angsuranBulanan: "",
-        kwitansi: "",
-      });
-    } catch (err) {
-      console.error("Add client error:", err);
-      alert("Gagal menambah client");
-    }
-  }
-
-  // =========================
-  // UI
-  // =========================
   return (
-    <div className="max-w-5xl">
-      <h1 className="text-3xl font-bold mb-8">
-        Tambah Client
-      </h1>
+    <div className="simulasi-page">
+      {/* HEADER */}
+      <div className="simulasi-header">
+        <h1>Simulasi Pencairan</h1>
+        <p>Hitung estimasi dana cair, biaya, dan cicilan</p>
+      </div>
 
-      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-5">
+      {/* GRID */}
+      <div className="simulasi-grid">
+        {/* INPUT */}
+        <div className="simulasi-card">
+          <h2>Input</h2>
 
-        <input name="nama" placeholder="Nama" value={formData.nama} onChange={handleChange} />
-        <input name="alamat" placeholder="Alamat" value={formData.alamat} onChange={handleChange} />
+          <label>Plafond</label>
+          <input
+            type="number"
+            value={plafond}
+            onChange={(e) => setPlafond(Number(e.target.value))}
+          />
 
-        <input name="bank" placeholder="Bank" value={formData.bank} onChange={handleChange} />
-        <input name="progress" placeholder="Progress" value={formData.progress} onChange={handleChange} />
+          <label>Tenor (bulan)</label>
+          <input
+            type="number"
+            value={tenor}
+            onChange={(e) => setTenor(Number(e.target.value))}
+          />
 
-        <input name="agunan" placeholder="Agunan" value={formData.agunan} onChange={handleChange} />
-        <input name="ketAgunan" placeholder="Ket Agunan" value={formData.ketAgunan} onChange={handleChange} />
+          <label>Bunga (%)</label>
+          <input
+            type="number"
+            value={bunga}
+            onChange={(e) => setBunga(Number(e.target.value))}
+          />
 
-        <input name="hubungan" placeholder="Hubungan" value={formData.hubungan} onChange={handleChange} />
-        <input name="job" placeholder="Job" value={formData.job} onChange={handleChange} />
-
-        <input name="company" placeholder="Company" value={formData.company} onChange={handleChange} />
-        <input name="negara" placeholder="Negara" value={formData.negara} onChange={handleChange} />
-
-        <input type="number" name="plafond" placeholder="Plafond" value={formData.plafond} onChange={handleChange} />
-        <input name="survei" placeholder="Survei" value={formData.survei} onChange={handleChange} />
-
-        <input name="tiket" placeholder="Tiket" value={formData.tiket} onChange={handleChange} />
-
-        <input type="date" name="tanggalCair" value={formData.tanggalCair} onChange={handleChange} />
-
-        <input name="jaminan" placeholder="Jaminan" value={formData.jaminan} onChange={handleChange} />
-
-        <input type="number" name="provisiADM" placeholder="Provisi" value={formData.provisiADM} onChange={handleChange} />
-        <input type="number" name="blokir" placeholder="Blokir" value={formData.blokir} onChange={handleChange} />
-        <input type="number" name="angsuranBulanan" placeholder="Angsuran Bulanan" value={formData.angsuranBulanan} onChange={handleChange} />
-
-        <input name="kwitansi" placeholder="Kwitansi" value={formData.kwitansi} onChange={handleChange} />
-
-        <div className="col-span-2">
-          <button type="submit" className="bg-blue-600 px-5 py-3 rounded hover:bg-blue-700">
-            Simpan Client
-          </button>
+          <label>Admin (%)</label>
+          <input
+            type="number"
+            value={admin}
+            onChange={(e) => setAdmin(Number(e.target.value))}
+          />
         </div>
 
-      </form>
+        {/* RESULT */}
+        <div className="simulasi-card result">
+          <h2>Hasil Simulasi</h2>
+
+          <div className="result-row">
+            <span>Biaya Admin</span>
+            <b>{result.adminFee.toLocaleString()}</b>
+          </div>
+
+          <div className="result-row">
+            <span>Dana Cair Bersih</span>
+            <b>{result.pokokSetelahAdmin.toLocaleString()}</b>
+          </div>
+
+          <div className="result-row">
+            <span>Total Bunga</span>
+            <b>{result.bungaTotal.toLocaleString()}</b>
+          </div>
+
+          <div className="result-row highlight">
+            <span>Cicilan / Bulan</span>
+            <b>{result.cicilanBulanan.toLocaleString()}</b>
+          </div>
+
+          <div className="result-row">
+            <span>Total Pengembalian</span>
+            <b>{result.totalPengembalian.toLocaleString()}</b>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

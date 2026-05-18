@@ -11,6 +11,7 @@ import Clients from "./pages/Clients";
 import Pencairan from "./pages/Pencairan";
 import Angsuran from "./pages/Angsuran";
 import ClientDetail from "./pages/ClientDetail";
+import SimulasiPencairan from "./pages/SimulasiPencairan";
 
 import Login from "./pages/Login";
 
@@ -61,6 +62,11 @@ export default function App() {
         <Route
           path="*"
           element={<Navigate to="/" />}
+        />
+
+        <Route
+          path="simulasi-pencairan"
+          element={<SimulasiPencairan />}
         />
       </Route>
 

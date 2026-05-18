@@ -27,6 +27,7 @@ console.log("MAIN LAYOUT RENDER");
     { path: "/clients", label: "Clients" },
     { path: "/pencairan", label: "Pencairan" },
     { path: "/angsuran", label: "Angsuran" },
+    { path: "/simulasi-pencairan", label: "Simulasi Pencairan" },
   ];
 
   // =========================
