@@ -1,85 +1,163 @@
 import logo from "../assets/logo.png";
-import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
+
+import {
+  LayoutDashboard,
+  Users,
+  Wallet,
+  CreditCard,
+  Calculator,
+  LogOut,
+  ChevronRight,
+} from "lucide-react";
+
+import {
+  Outlet,
+  Link,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/config";
+
 import "./MainLayout.css";
 
 export default function MainLayout() {
   const location = useLocation();
   const navigate = useNavigate();
-console.log("MAIN LAYOUT RENDER");
-  // =========================
-  // ACTIVE LINK
-  // =========================
+
+  // =========================================
+  // ACTIVE MENU
+  // =========================================
+
   function isActive(path) {
-    if (path === "/") return location.pathname === "/";
+    if (path === "/") {
+      return location.pathname === "/";
+    }
+
     return (
       location.pathname === path ||
       location.pathname.startsWith(path + "/")
     );
   }
 
-  // =========================
-  // NAV ITEMS
-  // =========================
+  // =========================================
+  // NAVIGATION MENU
+  // =========================================
+
   const navItems = [
-    { path: "/", label: "Dashboard" },
-    { path: "/clients", label: "Clients" },
-    { path: "/pencairan", label: "Pencairan" },
-    { path: "/angsuran", label: "Angsuran" },
-    { path: "/simulasi-pencairan", label: "Simulasi Pencairan" },
+    {
+      path: "/",
+      label: "Dashboard",
+      icon: <LayoutDashboard size={20} />,
+    },
+
+    {
+      path: "/clients",
+      label: "Clients",
+      icon: <Users size={20} />,
+    },
+
+    {
+      path: "/pencairan",
+      label: "Pencairan",
+      icon: <Wallet size={20} />,
+    },
+
+    {
+      path: "/angsuran",
+      label: "Angsuran",
+      icon: <CreditCard size={20} />,
+    },
+
+    {
+      path: "/simulasi-pencairan",
+      label: "Simulasi Pencairan",
+      icon: <Calculator size={20} />,
+    },
   ];
 
-  // =========================
+  // =========================================
   // LOGOUT
-  // =========================
+  // =========================================
+
   const handleLogout = async () => {
-    await signOut(auth);
-    navigate("/login");
+    try {
+      await signOut(auth);
+
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
-    <div className="layout">
-
+    <div className="main-layout">
+      {/* ========================================= */}
       {/* SIDEBAR */}
-      <aside className="sidebar">
+      {/* ========================================= */}
 
+      <aside className="sidebar">
         {/* LOGO */}
-        <div className="logo-area">
-          <div className="logo">
-            <img src={logo} alt="Manggala Logo" />
+
+        <div className="sidebar-top">
+          <div className="brand-logo">
+            <img src={logo} alt="Manggala Group" />
+          </div>
+
+          <div className="brand-text">
+            <h2>MANGGALA GROUP</h2>
+            <span>Finance Dashboard</span>
           </div>
         </div>
 
         {/* MENU */}
-        <nav className="menu">
+
+        <nav className="sidebar-menu">
           {navItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
-              className={isActive(item.path) ? "active" : ""}
+              className={`sidebar-link ${
+                isActive(item.path) ? "active" : ""
+              }`}
             >
-              {item.label}
+              <div className="sidebar-link-left">
+                <span className="sidebar-icon">
+                  {item.icon}
+                </span>
+
+                <span>{item.label}</span>
+              </div>
+
+              <ChevronRight size={16} />
             </Link>
           ))}
         </nav>
 
-        {/* LOGOUT */}
+        {/* FOOTER */}
+
         <div className="sidebar-footer">
-          <button onClick={handleLogout} className="logout-btn">
-            Logout
+          <button
+            onClick={handleLogout}
+            className="logout-button"
+          >
+            <LogOut size={18} />
+
+            <span>Logout</span>
           </button>
         </div>
-
       </aside>
 
-      {/* MAIN CONTENT */}
-      <main className="content">
-        <div className="page-content">
+      {/* ========================================= */}
+      {/* CONTENT */}
+      {/* ========================================= */}
+
+      <main className="main-content">
+        <div className="main-content-wrapper">
           <Outlet />
         </div>
       </main>
-
     </div>
   );
 }

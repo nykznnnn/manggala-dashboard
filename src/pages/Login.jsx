@@ -55,7 +55,7 @@ export default function Login() {
         className="login-card"
         onSubmit={handleLogin}
       >
-        <h1>Manggala</h1>
+        <h1>Selamat Datang</h1>
 
         <p>
           Client Management System

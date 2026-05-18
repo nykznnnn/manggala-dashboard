@@ -3,6 +3,7 @@ import { ClientsContext } from "../context/ClientsContext";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { formatRupiah } from "../utils/format";
+import { rebuildAngsuranSimple } from "../utils/rebuildAngsuran";
 
 export default function Pencairan() {
   const { clients = [] } = useContext(ClientsContext);
@@ -98,7 +99,7 @@ export default function Pencairan() {
   };
 
   // =========================
-  // SUBMIT
+  // SUBMIT (FINAL FIX + REBUILD)
   // =========================
   async function handleSubmit(e) {
     e.preventDefault();
@@ -106,12 +107,24 @@ export default function Pencairan() {
     if (!editClient?.id) return;
 
     try {
+      const existing = clients.find((c) => c.id === editClient.id);
+
+      const newTanggal = form.tanggalCair
+        ? new Date(form.tanggalCair).getTime()
+        : null;
+
+      const tanggalBerubah =
+        existing?.tanggalCair !== newTanggal;
+
+      const tenorBerubah =
+        Number(existing?.tenor) !== Number(form.tenor);
+
+      const harusRebuild = tanggalBerubah || tenorBerubah;
+
       await updateDoc(doc(db, "clients", editClient.id), {
         bank: form.bank,
 
-        tanggalCair: form.tanggalCair
-          ? new Date(form.tanggalCair).getTime()
-          : null,
+        tanggalCair: newTanggal,
 
         jaminan: toNumber(form.jaminan),
         provisiADM: toNumber(form.provisiADM),
@@ -121,6 +134,11 @@ export default function Pencairan() {
         tenor: toNumber(form.tenor),
 
         kwitansi: form.kwitansi,
+
+        // 🔥 AUTO REBUILD ANGsuran
+        angsuran: harusRebuild
+          ? rebuildAngsuranSimple(form.tenor)
+          : existing?.angsuran,
       });
 
       setShowModal(false);
@@ -133,7 +151,7 @@ export default function Pencairan() {
   }
 
   // =========================
-  // FILTER + SORT (ONLY ONCE)
+  // FILTER + SORT
   // =========================
   const filteredClients = clients
     .filter((c) => {
@@ -261,74 +279,15 @@ export default function Pencairan() {
             </div>
 
             <form className="client-form" onSubmit={handleSubmit}>
-              <input
-                name="bank"
-                placeholder="Bank"
-                value={form.bank}
-                onChange={handleChange}
-              />
-
-              <input
-                type="date"
-                name="tanggalCair"
-                value={form.tanggalCair}
-                onChange={handleChange}
-              />
-
-              <input
-                name="tenor"
-                type="number"
-                placeholder="Tenor"
-                value={form.tenor}
-                onChange={handleChange}
-              />
-
-              <input
-                name="jaminan"
-                type="number"
-                placeholder="Jaminan"
-                value={form.jaminan}
-                onChange={handleChange}
-              />
-
-              <input
-                name="provisiADM"
-                type="number"
-                placeholder="Provisi ADM"
-                value={form.provisiADM}
-                onChange={handleChange}
-              />
-
-              <input
-                name="blokir"
-                type="number"
-                placeholder="Blokir"
-                value={form.blokir}
-                onChange={handleChange}
-              />
-
-              <input
-                name="angsuranBulanan"
-                type="number"
-                placeholder="Angsuran Bulanan"
-                value={form.angsuranBulanan}
-                onChange={handleChange}
-              />
-
-              <input
-                name="plafond"
-                type="number"
-                placeholder="Plafond"
-                value={form.plafond}
-                onChange={handleChange}
-              />
-
-              <input
-                name="kwitansi"
-                placeholder="Kwitansi URL"
-                value={form.kwitansi}
-                onChange={handleChange}
-              />
+              <input name="bank" value={form.bank} onChange={handleChange} />
+              <input type="date" name="tanggalCair" value={form.tanggalCair} onChange={handleChange} />
+              <input name="tenor" type="number" value={form.tenor} onChange={handleChange} />
+              <input name="jaminan" type="number" value={form.jaminan} onChange={handleChange} />
+              <input name="provisiADM" type="number" value={form.provisiADM} onChange={handleChange} />
+              <input name="blokir" type="number" value={form.blokir} onChange={handleChange} />
+              <input name="angsuranBulanan" type="number" value={form.angsuranBulanan} onChange={handleChange} />
+              <input name="plafond" type="number" value={form.plafond} onChange={handleChange} />
+              <input name="kwitansi" value={form.kwitansi} onChange={handleChange} />
 
               <button type="submit" className="submit-btn">
                 Update

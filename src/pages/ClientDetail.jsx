@@ -172,7 +172,12 @@ const totalTalangan =
               value={client.negara}
             />
 
-            <Info
+           <Info
+              label="Agunan"
+              value={client.agunan}
+            />
+            
+             <Info
               label="Hubungan"
               value={client.hubungan}
             />

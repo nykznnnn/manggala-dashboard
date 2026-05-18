@@ -1,4 +1,16 @@
 import { useContext, useMemo } from "react";
+import {
+  Wallet,
+  ShieldCheck,
+  Landmark,
+  UserPlus,
+  CheckCircle2,
+  Clock3,
+  Users,
+  Bell,
+  MoreVertical,
+} from "lucide-react";
+
 import { ClientsContext } from "../context/ClientsContext";
 
 export default function Dashboard() {
@@ -6,9 +18,6 @@ export default function Dashboard() {
 
   const safeClients = useMemo(() => clients, [clients]);
 
-  // =========================
-  // STATUS CONSTANT (HARUS SAMA DENGAN CLIENTS)
-  // =========================
   const STATUS = {
     REGISTRASI: "REGISTRASI",
     SUDAH_CAIR: "SUDAH_CAIR",
@@ -16,154 +25,289 @@ export default function Dashboard() {
   };
 
   // =========================
-  // BASIC KPI
+  // TOTAL DATA
   // =========================
+
   const totalClients = safeClients.length;
 
-  const totalPending = safeClients.filter(
+  const totalRegistrasi = safeClients.filter(
     (c) => c.progress === STATUS.REGISTRASI
   ).length;
 
-const totalCair = safeClients.filter(
-  (c) => c.progress !== "REGISTRASI"
-).length;
+  const totalSudahCair = safeClients.filter(
+    (c) => c.progress === STATUS.SUDAH_CAIR
+  ).length;
 
   const totalBelumTerbang = safeClients.filter(
     (c) => c.progress === STATUS.BELUM_TERBANG
   ).length;
 
   const totalPlafond = safeClients.reduce(
-    (acc, c) => acc + Number(c.plafond || 0),
+    (acc, client) => acc + Number(client.plafond || 0),
     0
   );
 
-  // =========================
-  // FINANCE ENGINE (FIXED)
-  // =========================
-  let totalCashIn = 0;
+  const totalProvisi = safeClients.reduce(
+    (acc, client) => acc + Number(client.provisi || 0),
+    0
+  );
+
   let totalTalangan = 0;
-  let totalTunggakan = 0;
 
   safeClients.forEach((client) => {
     const angsuranBulanan = Number(client.angsuranBulanan || 0);
 
     (client.angsuran || []).forEach((item) => {
-      const amount = Number(item.amount || 0);
-
-      totalCashIn += amount;
-
       if (item.status === "hijau") {
         totalTalangan += angsuranBulanan;
-      }
-
-      if (item.status === "merah") {
-        totalTunggakan += angsuranBulanan;
       }
     });
   });
 
-  const outstanding = totalPlafond - totalCashIn;
-
   // =========================
-  // UI
+  // HELPER
   // =========================
-return (
-  <div>
 
-    <div className="page-header">
-      <h2>Dashboard</h2>
-      <p style={{ opacity: 0.6 }}>
-        Overview client, progress, dan financial status
-      </p>
-    </div>
+  const formatRupiah = (number) => {
+    return `Rp ${Number(number || 0).toLocaleString("id-ID")}`;
+  };
 
-    {/* KPI GRID */}
-    <div className="stats-grid">
+  const getProgressClass = (progress) => {
+    switch (progress) {
+      case STATUS.SUDAH_CAIR:
+        return "badge-success";
 
-      <div className="stats-card">
-        <span>Total Client</span>
-        <h3>{totalClients}</h3>
-      </div>
+      case STATUS.BELUM_TERBANG:
+        return "badge-warning";
 
-      <div className="stats-card">
-        <span>Registrasi</span>
-        <h3>{totalPending}</h3>
-      </div>
+      default:
+        return "badge-primary";
+    }
+  };
 
-      <div className="stats-card">
-        <span>Sudah Cair</span>
-        <h3>{totalCair}</h3>
-      </div>
+  const getProgressLabel = (progress) => {
+    switch (progress) {
+      case STATUS.SUDAH_CAIR:
+        return "SUDAH_CAIR";
 
-      <div className="stats-card">
-        <span>Belum Terbang</span>
-        <h3>{totalBelumTerbang}</h3>
-      </div>
+      case STATUS.BELUM_TERBANG:
+        return "BELUM_TERBANG";
 
-    </div>
+      default:
+        return "REGISTRASI";
+    }
+  };
 
-    {/* FINANCE SECTION */}
-    <div className="dashboard-section">
+  return (
+    <div className="dashboard-page">
+      {/* ================================================= */}
+      {/* HEADER */}
+      {/* ================================================= */}
 
-      <h3>Status Angsuran</h3>
+      <div className="dashboard-header">
+        <div>
+          <h1 className="dashboard-title">Dashboard</h1>
 
-      <div className="status-grid">
-
-        <div className="status-card hijau">
-          <span>Total Talangan</span>
-          <h2>Rp {totalTalangan.toLocaleString()}</h2>
+          <p className="dashboard-subtitle">
+            Ringkasan client, progress, dan status keuangan
+          </p>
         </div>
 
-        <div className="status-card merah">
-          <span>Total Tunggakan</span>
-          <h2>Rp {totalTunggakan.toLocaleString()}</h2>
+        <div className="dashboard-header-right">
+       
+
+          <div className="dashboard-user">
+            <div className="dashboard-avatar">
+              <Users size={20} />
+            </div>
+
+            <div>
+              <h4>Admin Manggala</h4>
+              <span>Administrator</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ================================================= */}
+      {/* STATUS ANG SURAN */}
+      {/* ================================================= */}
+
+      <div className="dashboard-section">
+        <div className="section-top">
+          <h3>Status Angsuran</h3>
+
+          <div className="client-counter">
+            <Users size={16} />
+            <span>{totalClients} Client Terdaftar</span>
+          </div>
         </div>
 
-        <div className="status-card biru">
-          <span>Total Plafond</span>
-          <h2>Rp {totalPlafond.toLocaleString()}</h2>
-        </div>
+<div className="status-grid">
+  {/* TALANGAN */}
 
+  <div className="status-card green-card">
+    <div className="status-card-overlay"></div>
+
+    <div className="status-card-content">
+      <div className="status-icon">
+        <Wallet size={24} />
+      </div>
+
+      <div>
+        <span>Total Talangan</span>
+
+        <h2>{formatRupiah(totalTalangan)}</h2>
       </div>
     </div>
 
-    {/* RECENT CLIENT */}
-    <div className="dashboard-section">
-
-      <h3>Recent Client</h3>
-
-      <div className="table-wrapper">
-        <table className="data-table">
-
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>Nama</th>
-              <th>Bank</th>
-              <th>Progress</th>
-              <th>Plafond</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {safeClients.slice(0, 7).map((client, index) => (
-              <tr key={client.id}>
-                <td>{index + 1}</td>
-                <td>{client.nama}</td>
-                <td>{client.bank}</td>
-                <td>{client.progress}</td>
-                <td>
-                  Rp {Number(client.plafond || 0).toLocaleString()}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-
-        </table>
-      </div>
-
-    </div>
-
+    <div className="status-wave green-wave"></div>
   </div>
-);
+
+  {/* PROVISI */}
+
+  <div className="status-card red-card">
+    <div className="status-card-overlay"></div>
+
+    <div className="status-card-content">
+      <div className="status-icon">
+        <ShieldCheck size={24} />
+      </div>
+
+      <div>
+        <span>Total Provisi/Administrasi</span>
+
+        <h2>{formatRupiah(totalProvisi)}</h2>
+      </div>
+    </div>
+
+    <div className="status-wave red-wave"></div>
+  </div>
+
+  {/* PLAFOND */}
+
+  <div className="status-card blue-card">
+    <div className="status-card-overlay"></div>
+
+    <div className="status-card-content">
+      <div className="status-icon">
+        <Landmark size={24} />
+      </div>
+
+      <div>
+        <span>Total Plafond</span>
+
+        <h2>{formatRupiah(totalPlafond)}</h2>
+      </div>
+    </div>
+
+    <div className="status-wave blue-wave"></div>
+  </div>
+</div>
+      </div>
+
+      {/* ================================================= */}
+      {/* PROGRESS CLIENT */}
+      {/* ================================================= */}
+
+      <div className="dashboard-section">
+        <h3>Progress Client</h3>
+
+        <div className="progress-grid">
+          {/* REGISTRASI */}
+
+          <div className="progress-card">
+            <div className="progress-icon blue-icon">
+              <UserPlus size={22} />
+            </div>
+
+            <div className="progress-content">
+              <span>Registrasi</span>
+
+              <h2>{totalRegistrasi}</h2>
+            </div>
+
+            <div className="progress-line blue-line"></div>
+          </div>
+
+          {/* SUDAH CAIR */}
+
+          <div className="progress-card">
+            <div className="progress-icon green-icon">
+              <CheckCircle2 size={22} />
+            </div>
+
+            <div className="progress-content">
+              <span>Sudah Cair</span>
+
+              <h2>{totalSudahCair}</h2>
+            </div>
+
+            <div className="progress-line green-line"></div>
+          </div>
+
+          {/* BELUM TERBANG */}
+
+          <div className="progress-card">
+            <div className="progress-icon orange-icon">
+              <Clock3 size={22} />
+            </div>
+
+            <div className="progress-content">
+              <span>Belum Terbang</span>
+
+              <h2>{totalBelumTerbang}</h2>
+            </div>
+
+            <div className="progress-line orange-line"></div>
+          </div>
+
+          {/* TOTAL CLIENT */}
+
+          <div className="progress-card">
+            <div className="progress-icon purple-icon">
+              <Users size={22} />
+            </div>
+
+            <div className="progress-content">
+              <span>Total Client</span>
+
+              <h2>{totalClients}</h2>
+            </div>
+
+            <div className="progress-line purple-line"></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tabel Client Terbaru */}
+      <div className="dashboard-section">
+        <h3>Recent Client</h3>
+        <div className="table-wrapper">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama</th>
+                <th>Bank</th>
+                <th>Progress</th>
+                <th>Plafond</th>
+              </tr>
+            </thead>
+            <tbody>
+              {safeClients.slice(0, 7).map((client, index) => (
+                <tr key={client.id}>
+                  <td>{index + 1}</td>
+                  <td>{client.nama}</td>
+                  <td>{client.bank}</td>
+                  <td>{client.progress}</td>
+                  <td>Rp {Number(client.plafond || 0).toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
 }
