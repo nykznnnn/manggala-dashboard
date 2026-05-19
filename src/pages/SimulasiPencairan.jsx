@@ -185,7 +185,7 @@ export default function SimulasiPencairan() {
             <strong>Rp {format(result.totalPengeluaran)}</strong>
           </div>
           <div className="hero-result">
-            <span>Sisa Uang Cair</span>
+            <span>Sisa Uang Pencairan</span>
             <h1>Rp {format(result.sisaUang)}</h1>
           </div>
         </div>
