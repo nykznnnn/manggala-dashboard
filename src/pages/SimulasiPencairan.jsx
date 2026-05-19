@@ -2,19 +2,23 @@ import { useMemo, useState } from "react";
 import "./SimulasiPencairan.css";
 
 export default function SimulasiPencairan() {
-  const [plafond, setPlafond] = useState(0);
+  const [plafond, setPlafond] = useState(''); // string kosong untuk input
   const [tenor, setTenor] = useState(36);
   const [saldoBlokirBulan, setSaldoBlokirBulan] = useState(3);
 
-  const [prosesPenempatan, setProsesPenempatan] = useState(0);
-  const [pelunasan, setPelunasan] = useState(0);
-  const [jasaProses, setJasaProses] = useState(0);
-  const [biayaLain, setBiayaLain] = useState(0);
+  const [prosesPenempatan, setProsesPenempatan] = useState('');
+  const [pelunasan, setPelunasan] = useState('');
+  const [jasaProses, setJasaProses] = useState('');
+  const [biayaLain, setBiayaLain] = useState('');
 
-  const toNum = (v) => Number(v) || 0;
+  const toNum = (v) => {
+    if (v === undefined || v === null || v === '') return 0;
+    const num = Number(v);
+    return isNaN(num) ? 0 : num;
+  };
 
   const format = (val) =>
-    new Intl.NumberFormat("id-ID", {
+    new Intl.NumberFormat('id-ID', {
       maximumFractionDigits: 0,
     }).format(Math.round(val || 0));
 
@@ -22,6 +26,20 @@ export default function SimulasiPencairan() {
     const p = toNum(plafond);
     const t = toNum(tenor);
     const b = toNum(saldoBlokirBulan);
+    if (p <= 0 || t <= 0) {
+      return {
+        angsuranPerBulan: 0,
+        saldoBlokirCalc: 0,
+        admProvisi: 0,
+        asuransi: 0,
+        JASA_AGENCY_FLAT: 0,
+        JAMINAN_AGENCY_FLAT: 0,
+        AKTA_OTENTIK: 0,
+        APHT_NOTARIS: 0,
+        totalPengeluaran: 0,
+        sisaUang: 0,
+      };
+    }
 
     const BUNGA_BANK = 0.01;
     const PROVISI_ADM_PERCENT = 0.03;
@@ -35,7 +53,6 @@ export default function SimulasiPencairan() {
         : 15000000;
 
     const JAMINAN_AGENCY_FLAT = p > 201000000 ? 20000000 : 10000000;
-
     const AKTA_OTENTIK = 4000000;
     const APHT_NOTARIS = 1200000;
 
@@ -44,10 +61,8 @@ export default function SimulasiPencairan() {
     const jasa = toNum(jasaProses);
     const lain = toNum(biayaLain);
 
-    // FIXED CORE
-    const baseAngsuran = (p * BUNGA_BANK) + (p / t);
+    const baseAngsuran = p * BUNGA_BANK + p / t;
     const angsuranPerBulan = Math.round(baseAngsuran);
-
     const saldoBlokirCalc = angsuranPerBulan * b;
 
     const admProvisi = p * PROVISI_ADM_PERCENT;
@@ -80,7 +95,7 @@ export default function SimulasiPencairan() {
     };
   }, [plafond, tenor, saldoBlokirBulan, prosesPenempatan, pelunasan, jasaProses, biayaLain]);
 
-  return (
+  return ( // lanjutkan dengan JSX yang sudah ada
     <div className="simulasi-page">
 
       {/* HEADER */}
@@ -140,11 +155,6 @@ export default function SimulasiPencairan() {
         {/* RESULT */}
         <div className="simulasi-card result-panel">
 
-          <div className="hero-result">
-            <span>Sisa Uang Cair</span>
-            <h1>Rp {format(result.sisaUang)}</h1>
-          </div>
-
           <div className="breakdown-item">
             <span>Saldo Blokir</span>
             <strong>Rp {format(result.saldoBlokirCalc)}</strong>
@@ -174,7 +184,10 @@ export default function SimulasiPencairan() {
             <span>Total Pengeluaran</span>
             <strong>Rp {format(result.totalPengeluaran)}</strong>
           </div>
-
+          <div className="hero-result">
+            <span>Sisa Uang Cair</span>
+            <h1>Rp {format(result.sisaUang)}</h1>
+          </div>
         </div>
 
       </div>

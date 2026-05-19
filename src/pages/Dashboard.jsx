@@ -222,9 +222,8 @@ export default function Dashboard() {
             </div>
 
             <div className="progress-content">
-              <span>Registrasi</span>
-
               <h2>{totalRegistrasi}</h2>
+              <span>Registrasi</span>
             </div>
 
             <div className="progress-line blue-line"></div>
@@ -240,7 +239,7 @@ export default function Dashboard() {
             <div className="progress-content">
               <span>Sudah Cair</span>
 
-              <h2>{totalSudahCair}</h2>
+              <h2>{totalSudahCair+totalBelumTerbang}</h2>
             </div>
 
             <div className="progress-line green-line"></div>

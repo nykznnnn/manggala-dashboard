@@ -21,7 +21,7 @@
 
 .simulasi-grid {
   display: grid;
-  grid-template-columns: 400px 1fr;
+  grid-template-columns: minmax(320px, 1fr) minmax(320px, 1fr);
   gap: 24px;
 }
 
@@ -42,7 +42,7 @@
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
 .form-group label {
@@ -51,8 +51,8 @@
 }
 
 .form-group input {
-  height: 48px;
-  border-radius: 14px;
+  height: 32px;
+  border-radius: 5px;
   border: 1px solid rgba(255,255,255,0.08);
   background: rgba(255,255,255,0.03);
   padding: 0 16px;
@@ -67,7 +67,7 @@
 .result-panel {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 14px;
 }
 
 .result-top {
@@ -82,7 +82,7 @@
   flex-direction: column;
   gap: 10px;
   padding: 32px;
-  border-radius: 24px;
+  border-radius: 10px;
   background: linear-gradient(135deg, rgba(0,255,200,0.12), rgba(0,140,255,0.08));
 }
 
@@ -91,7 +91,7 @@
 }
 
 .hero-result h1 {
-  font-size: 42px;
+  font-size: 32px;
   color: var(--text);
 }
 
@@ -118,8 +118,8 @@
 .breakdown-item {
   display: flex;
   justify-content: space-between;
-  padding: 12px 14px;
-  border-radius: 14px;
+  padding: 7px 14px;
+  border-radius: 8px;
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.05);
 }

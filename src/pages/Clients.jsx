@@ -2,6 +2,7 @@ import { useState, useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ClientsContext } from "../context/ClientsContext";
 import { generateAngsuran } from "../utils/angsuran";
+import { motion } from "framer-motion";
 
 import {
   collection,
@@ -314,47 +315,87 @@ return (
         </div>
       )}
 
-      {/* FORM MODAL */}
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-box">
-            <div className="modal-header">
-              <h3>{editId ? "Edit Client" : "Tambah Client"}</h3>
-              <button
-                className="close-btn"
-                onClick={() => setShowModal(false)}
-              >
-                ✕
-              </button>
-            </div>
+{/* FORM MODAL */}
+{showModal && (
+  <div className="modal-overlay">
+    <div className="modal-box">
+      <div className="modal-header">
+        <h3>
+          {editId 
+            ? `Edit Client${form.nama ? ` - ${form.nama}` : ''}` 
+            : "Tambah Client"}
+        </h3>
+        <button
+          className="close-btn"
+          onClick={() => setShowModal(false)}
+        >
+          ✕
+        </button>
+      </div>
 
-            <form className="client-form" onSubmit={handleSubmit}>
-              <input name="nama" placeholder="Nama" value={form.nama} onChange={handleChange} />
-              <input name="alamat" placeholder="Alamat" value={form.alamat} onChange={handleChange} />
-
-              <select name="progress" value={form.progress} onChange={handleChange}>
-                <option value="REGISTRASI">REGISTRASI</option>
-                <option value="SUDAH_CAIR">SUDAH_CAIR</option>
-                <option value="BELUM_TERBANG">BELUM_TERBANG</option>
-              </select>
-
-              <input name="bank" placeholder="Bank" value={form.bank} onChange={handleChange} />
-              <input name="agunan" placeholder="Agunan" value={form.agunan} onChange={handleChange} />
-              <input name="ketAgunan" placeholder="Ket Agunan" value={form.ketAgunan} onChange={handleChange} />
-              <input name="hubungan" placeholder="Hubungan" value={form.hubungan} onChange={handleChange} />
-              <input name="job" placeholder="Job" value={form.job} onChange={handleChange} />
-              <input name="company" placeholder="Company" value={form.company} onChange={handleChange} />
-              <input name="negara" placeholder="Negara" value={form.negara} onChange={handleChange} />
-              <input name="survei" placeholder="Survei" value={form.survei} onChange={handleChange} />
-              <input name="tiket" placeholder="Tiket" value={form.tiket} onChange={handleChange} />
-
-              <button className="submit-btn" type="submit">
-                Save
-              </button>
-            </form>
-          </div>
+      <form className="client-form" onSubmit={handleSubmit}>
+        <div className="form-field">
+          <label>Nama</label>
+          <input name="nama" placeholder="Nama" value={form.nama} onChange={handleChange} />
         </div>
-      )}
+        <div className="form-field">
+          <label>Alamat</label>
+          <input name="alamat" placeholder="Alamat" value={form.alamat} onChange={handleChange} />
+        </div>
+
+        <div className="form-field">
+          <label>Progress</label>
+          <select name="progress" value={form.progress} onChange={handleChange}>
+            <option value="REGISTRASI">REGISTRASI</option>
+            <option value="SUDAH_CAIR">SUDAH_CAIR</option>
+            <option value="BELUM_TERBANG">BELUM_TERBANG</option>
+          </select>
+        </div>
+
+        <div className="form-field">
+          <label>Bank</label>
+          <input name="bank" placeholder="Bank" value={form.bank} onChange={handleChange} />
+        </div>
+        <div className="form-field">
+          <label>Agunan</label>
+          <input name="agunan" placeholder="Agunan" value={form.agunan} onChange={handleChange} />
+        </div>
+        <div className="form-field">
+          <label>Ket Agunan</label>
+          <input name="ketAgunan" placeholder="Ket Agunan" value={form.ketAgunan} onChange={handleChange} />
+        </div>
+        <div className="form-field">
+          <label>Hubungan</label>
+          <input name="hubungan" placeholder="Hubungan" value={form.hubungan} onChange={handleChange} />
+        </div>
+        <div className="form-field">
+          <label>Job</label>
+          <input name="job" placeholder="Job" value={form.job} onChange={handleChange} />
+        </div>
+        <div className="form-field">
+          <label>Company</label>
+          <input name="company" placeholder="Company" value={form.company} onChange={handleChange} />
+        </div>
+        <div className="form-field">
+          <label>Negara</label>
+          <input name="negara" placeholder="Negara" value={form.negara} onChange={handleChange} />
+        </div>
+        <div className="form-field">
+          <label>Survei</label>
+          <input name="survei" placeholder="Survei" value={form.survei} onChange={handleChange} />
+        </div>
+        <div className="form-field">
+          <label>Tiket</label>
+          <input name="tiket" placeholder="Tiket" value={form.tiket} onChange={handleChange} />
+        </div>
+
+        <button className="submit-btn" type="submit">
+          Save
+        </button>
+      </form>
+    </div>
+  </div>
+)}
 
       {/* ANIMATION */}
       <style>{`

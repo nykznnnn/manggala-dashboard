@@ -10,15 +10,11 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-import {
-  Outlet,
-  Link,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
-
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/config";
+
+import { motion } from "framer-motion";
 
 import "./MainLayout.css";
 
@@ -26,138 +22,129 @@ export default function MainLayout() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // =========================================
-  // ACTIVE MENU
-  // =========================================
-
   function isActive(path) {
-    if (path === "/") {
-      return location.pathname === "/";
-    }
-
-    return (
-      location.pathname === path ||
-      location.pathname.startsWith(path + "/")
-    );
+    if (path === "/") return location.pathname === "/";
+    return location.pathname.startsWith(path);
   }
 
-  // =========================================
-  // NAVIGATION MENU
-  // =========================================
-
   const navItems = [
-    {
-      path: "/",
-      label: "Dashboard",
-      icon: <LayoutDashboard size={20} />,
-    },
-
-    {
-      path: "/clients",
-      label: "Clients",
-      icon: <Users size={20} />,
-    },
-
-    {
-      path: "/pencairan",
-      label: "Pencairan",
-      icon: <Wallet size={20} />,
-    },
-
-    {
-      path: "/angsuran",
-      label: "Angsuran",
-      icon: <CreditCard size={20} />,
-    },
-
-    {
-      path: "/simulasi-pencairan",
-      label: "Simulasi Pencairan",
-      icon: <Calculator size={20} />,
-    },
+    { path: "/", label: "Dashboard", icon: <LayoutDashboard size={20} /> },
+    { path: "/clients", label: "Clients", icon: <Users size={20} /> },
+    { path: "/pencairan", label: "Pencairan", icon: <Wallet size={20} /> },
+    { path: "/angsuran", label: "Angsuran", icon: <CreditCard size={20} /> },
+    { path: "/simulasi-pencairan", label: "Simulasi", icon: <Calculator size={20} /> },
   ];
 
-  // =========================================
-  // LOGOUT
-  // =========================================
-
   const handleLogout = async () => {
-    try {
-      await signOut(auth);
+    await signOut(auth);
+    navigate("/login");
+  };
 
-      navigate("/login");
-    } catch (error) {
-      console.error(error);
-    }
+  // =========================
+  // smoother minimal motion
+  // =========================
+  const sidebar = {
+    hidden: { x: -20, opacity: 0 },
+    show: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.35,
+        ease: [0.22, 1, 0.36, 1],
+        staggerChildren: 0.05,
+      },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, x: -6 },
+    show: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.25, ease: "easeOut" },
+    },
+  };
+
+  const page = {
+    hidden: { opacity: 0, y: 6 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+    },
   };
 
   return (
     <div className="main-layout">
-      {/* ========================================= */}
+
       {/* SIDEBAR */}
-      {/* ========================================= */}
+      <motion.aside
+        className="sidebar"
+        variants={sidebar}
+        initial="hidden"
+        animate="show"
+      >
 
-      <aside className="sidebar">
-        {/* LOGO */}
-
+        {/* TOP BRAND */}
         <div className="sidebar-top">
           <div className="brand-logo">
-            <img src={logo} alt="Manggala Group" />
+            <img src={logo} alt="Manggala" />
           </div>
 
           <div className="brand-text">
-            <h2>MANGGALA GROUP</h2>
-            <span>Finance Dashboard</span>
+            <h2>MANGGALA</h2>
+            <span>Finance System</span>
           </div>
         </div>
 
         {/* MENU */}
+        <motion.nav className="sidebar-menu">
+          {navItems.map((itemData) => (
+            <motion.div key={itemData.path} variants={item}>
+              <Link
+                to={itemData.path}
+                className={`sidebar-link ${
+                  isActive(itemData.path) ? "active" : ""
+                }`}
+              >
+                <div className="sidebar-link-left">
+                  <span className="sidebar-icon">{itemData.icon}</span>
+                  <span>{itemData.label}</span>
+                </div>
 
-        <nav className="sidebar-menu">
-          {navItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`sidebar-link ${
-                isActive(item.path) ? "active" : ""
-              }`}
-            >
-              <div className="sidebar-link-left">
-                <span className="sidebar-icon">
-                  {item.icon}
-                </span>
-
-                <span>{item.label}</span>
-              </div>
-
-              <ChevronRight size={16} />
-            </Link>
+                <ChevronRight size={14} />
+              </Link>
+            </motion.div>
           ))}
-        </nav>
+        </motion.nav>
 
-        {/* FOOTER */}
-
+        {/* FOOTER (PIN BAWAH) */}
         <div className="sidebar-footer">
-          <button
+          <motion.button
             onClick={handleLogout}
             className="logout-button"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
             <LogOut size={18} />
-
             <span>Logout</span>
-          </button>
+          </motion.button>
         </div>
-      </aside>
 
-      {/* ========================================= */}
+      </motion.aside>
+
       {/* CONTENT */}
-      {/* ========================================= */}
-
-      <main className="main-content">
+      <motion.main
+        className="main-content"
+        variants={page}
+        initial="hidden"
+        animate="show"
+      >
         <div className="main-content-wrapper">
           <Outlet />
         </div>
-      </main>
+      </motion.main>
+
     </div>
   );
 }
