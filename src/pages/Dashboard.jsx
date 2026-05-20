@@ -294,7 +294,15 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {safeClients.slice(0, 7).map((client, index) => (
+              {[...safeClients]
+  .sort((a, b) => {
+    if (!a.tanggalCair) return 1;
+    if (!b.tanggalCair) return -1;
+
+    return new Date(b.tanggalCair) - new Date(a.tanggalCair);
+  })
+  .slice(0, 7)
+  .map((client, index) => (
                 <tr key={client.id}>
                   <td>{index + 1}</td>
                   <td>{client.nama}</td>
