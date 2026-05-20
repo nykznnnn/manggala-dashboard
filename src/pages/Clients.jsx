@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ClientsContext } from "../context/ClientsContext";
 import { generateAngsuran } from "../utils/angsuran";
 import { motion } from "framer-motion";
-
+import { exportToExcel } from "../utils/exportToExcel";
 import {
   collection,
   addDoc,
@@ -170,6 +170,99 @@ const filteredClients = [...clients]
     })
   );
 
+const handleExport = () => {
+
+const sortedClients = [...clients].sort((a, b) =>
+  (a.nama || "").localeCompare(
+    b.nama || "",
+    "id",
+    { sensitivity: "base" }
+  )
+);
+
+const data = sortedClients.map((c, index) => {
+
+// =========================
+// TOTAL TALANGAN
+// =========================
+
+const totalTalanganCount = (c.angsuran || []).filter(
+  (a) => a.status === "hijau"
+).length;
+
+const totalTalanganNominal =
+  totalTalanganCount *
+  Number(c.angsuranBulanan || 0);
+
+// =========================
+// TOTAL TUNGGAKAN
+// =========================
+
+const totalTunggakanCount = (c.angsuran || []).filter(
+  (a) => a.status === "merah"
+).length;
+
+const totalTunggakanNominal =
+  totalTunggakanCount *
+  Number(c.angsuranBulanan || 0);
+
+// SISA ANGSURAN
+const sisaAngsuran = (c.angsuran || []).filter(
+  (a) =>
+    a.warna === undefined ||
+    a.warna === null ||
+    a.warna === ""
+).length;
+
+    return {
+      No: index + 1,
+
+      Nama: String(c.nama || ""),
+
+      Alamat: String(c.alamat || ""),
+
+      Progress: String(c.progress || ""),
+
+      Agunan: String(c.agunan || ""),
+
+      "Ket. Agunan": String(c.ketAgunan || ""),
+
+      Hubungan: String(c.hubungan || ""),
+
+      Company: String(c.company || ""),
+
+      Job: String(c.job || ""),
+
+      Negara: String(c.negara || ""),
+
+      Bank: String(c.bank || ""),
+
+      "Tanggal Cair": c.tanggalCair
+  ? new Date(c.tanggalCair).toLocaleDateString("id-ID")
+  : "-",
+
+     Plafond: `Rp ${Number(c.plafond || 0).toLocaleString("id-ID")}`,
+
+Jaminan: `Rp ${Number(c.jaminan || 0).toLocaleString("id-ID")}`,
+
+"Provisi/ADM": `Rp ${Number(c.provisi || 0).toLocaleString("id-ID")}`,
+
+"Angsuran": `Rp ${Number(
+  c.angsuranBulanan || 0
+).toLocaleString("id-ID")}`,
+
+      "Talangan": `${totalTalanganCount}x - Rp ${totalTalanganNominal.toLocaleString("id-ID")}`,
+      "Tunggakan": `${totalTunggakanCount}x - Rp ${totalTunggakanNominal.toLocaleString("id-ID")}`,
+
+      "Sisa Angsuran": `${sisaAngsuran} Bulan`,
+
+     Kwitansi: c.kwitansi || "-",
+    };
+  });
+
+  exportToExcel(data, "laporan-client");
+};
+
 return (
   <div>
     <div className="page-header">
@@ -187,6 +280,13 @@ return (
       <button className="add-btn" onClick={openAdd}>
         + Tambah Client
       </button>
+
+      <button
+  className="add-btn"
+  onClick={handleExport}
+>
+  Export Excel
+</button>
 
       <input
         type="text"
