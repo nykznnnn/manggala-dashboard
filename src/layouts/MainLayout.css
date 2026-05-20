@@ -598,6 +598,7 @@ body::before {
   z-index: 2;
   text-align: center;
   background: #12357d;
+  width: 40px;
 }
 .data-table td:first-child {
   position: sticky;
@@ -605,13 +606,14 @@ body::before {
   z-index: 2;
   text-align: center;
   background: #0b1220;
+  width: 40px;
 }
 
 .data-table th:nth-child(2)
  {
   position: sticky;
   left: 40px;
-  z-index: 2;
+  z-index: 1;
   min-width: 200px;
   background: #12357d;
   text-align: left;
@@ -619,7 +621,7 @@ body::before {
 .data-table td:nth-child(2) {
   position: sticky;
   left: 40px;
-  z-index: 2;
+  z-index: 1;
   min-width: 200px;
   background: #0b1220;
   text-align: left;
