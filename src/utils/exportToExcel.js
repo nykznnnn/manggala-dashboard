@@ -166,12 +166,17 @@ if (
   // FREEZE HEADER
   // =========================
 
-  worksheet.views = [
-    {
-      state: "frozen",
-      ySplit: 1,
-    },
-  ];
+worksheet.views = [
+  {
+    state: "frozen",
+
+    // freeze header
+    ySplit: 1,
+
+    // freeze 2 kolom pertama
+    xSplit: 2,
+  },
+];
 
   // =========================
   // GENERATE FILE

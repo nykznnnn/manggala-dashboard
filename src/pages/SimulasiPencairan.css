@@ -106,16 +106,17 @@
 }
 
 .breakdown-section h2 {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .breakdown-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
 }
 
 .breakdown-item {
+  
   display: flex;
   justify-content: space-between;
   padding: 7px 14px;
