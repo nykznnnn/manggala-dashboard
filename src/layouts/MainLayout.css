@@ -393,20 +393,31 @@ body::before {
 ========================================================= */
 .status-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
   gap: 16px;
 }
+
 .status-card {
   position: relative;
-  padding: 18px;
+
+  padding: 20px;
   border-radius: 20px;
+
   overflow: hidden;
-  min-height: 100px;
+
+  min-height: 130px;
+
   transition: all 0.25s ease;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  width: 100%;
 }
+
 .status-card:hover { transform: translateY(-3px); }
 .green-card { background: linear-gradient(145deg, #22c55e, #15803d); }
 .red-card { background: linear-gradient(145deg, #ef4444, #b91c1c); }
@@ -415,10 +426,25 @@ body::before {
 .status-card-content {
   position: relative;
   z-index: 2;
+
   display: flex;
-  flex-direction: row;
   align-items: center;
   gap: 16px;
+
+  width: 100%;
+  min-width: 0;
+}
+.status-card-content > div:last-child {
+  min-width: 0;
+  flex: 1;
+}
+
+.status-card h2 {
+  font-size: clamp(20px, 2vw, 28px);
+
+  line-height: 1.2;
+
+  word-break: break-word;
 }
 .status-icon {
   width: 50px;
@@ -477,6 +503,11 @@ body::before {
   backdrop-filter: blur(18px);
   overflow: hidden;
   transition: all 0.25s ease;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
 }
 .progress-card:hover { transform: translateY(-4px); }
 .progress-icon {
@@ -486,7 +517,8 @@ body::before {
   align-items: center;
   justify-content: center;
   border-radius: 18px;
-  margin-bottom: 18px;
+  margin: 0 auto 18px auto;
+
 }
 .blue-icon { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
 .green-icon { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
