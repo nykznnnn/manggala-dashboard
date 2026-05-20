@@ -65,14 +65,22 @@ export default function MainLayout() {
     },
   };
 
-  const page = {
-    hidden: { opacity: 0, y: 6 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+const page = {
+  hidden: {
+    opacity: 0,
+    x: 30,
+  },
+
+  show: {
+    opacity: 1,
+    x: 0,
+
+    transition: {
+      duration: 0.35,
+      ease: [0.22, 1, 0.36, 1],
     },
-  };
+  },
+};
 
   return (
     <div className="main-layout">
@@ -136,16 +144,26 @@ export default function MainLayout() {
       </motion.aside>
 
       {/* CONTENT */}
-      <motion.main
-        className="main-content"
-        variants={page}
-        initial="hidden"
-        animate="show"
-      >
-        <div className="main-content-wrapper">
-          <Outlet />
-        </div>
-      </motion.main>
+<motion.main
+  key={location.pathname}
+  className="main-content"
+  initial={{
+    opacity: 0,
+    y: 8,
+  }}
+  animate={{
+    opacity: 1,
+    y: 0,
+  }}
+  transition={{
+    duration: 0.22,
+    ease: "easeOut",
+  }}
+>
+  <div className="main-content-wrapper">
+    <Outlet />
+  </div>
+</motion.main>
 
     </div>
   );
