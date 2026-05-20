@@ -112,7 +112,9 @@ export default function MainLayout() {
                   <span>{itemData.label}</span>
                 </div>
 
-                <ChevronRight size={14} />
+                <span className="sidebar-arrow">
+  <ChevronRight size={14} />
+</span>
               </Link>
             </motion.div>
           ))}

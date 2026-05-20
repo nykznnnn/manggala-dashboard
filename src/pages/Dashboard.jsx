@@ -294,8 +294,19 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {[...safeClients]
+{[...safeClients]
   .sort((a, b) => {
+
+    // REGISTRASI paling atas
+    if (a.progress === "REGISTRASI" && b.progress !== "REGISTRASI") {
+      return -1;
+    }
+
+    if (b.progress === "REGISTRASI" && a.progress !== "REGISTRASI") {
+      return 1;
+    }
+
+    // selain registrasi -> urut tanggal cair terbaru
     if (!a.tanggalCair) return 1;
     if (!b.tanggalCair) return -1;
 
@@ -303,14 +314,16 @@ export default function Dashboard() {
   })
   .slice(0, 7)
   .map((client, index) => (
-                <tr key={client.id}>
-                  <td>{index + 1}</td>
-                  <td>{client.nama}</td>
-                  <td>{client.bank}</td>
-                  <td>{client.progress}</td>
-                  <td>Rp {Number(client.plafond || 0).toLocaleString()}</td>
-                </tr>
-              ))}
+    <tr key={client.id}>
+      <td>{index + 1}</td>
+      <td>{client.nama}</td>
+      <td>{client.bank}</td>
+      <td>{client.progress}</td>
+      <td>
+        Rp {Number(client.plafond || 0).toLocaleString()}
+      </td>
+    </tr>
+))}
             </tbody>
           </table>
         </div>
