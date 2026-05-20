@@ -93,7 +93,7 @@ export default function MainLayout() {
 
           <div className="brand-text">
             <h2>MANGGALA</h2>
-            <span>Finance System</span>
+            <span>Data Management System</span>
           </div>
         </div>
 

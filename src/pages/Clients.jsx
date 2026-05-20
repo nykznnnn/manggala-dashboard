@@ -269,40 +269,34 @@ return (
       <h2>Clients</h2>
     </div>
 
-    <div
-      style={{
-        display: "flex",
-        gap: "12px",
-        marginBottom: "18px",
-        flexWrap: "wrap",
-      }}
+<div className="clients-header">
+
+  {/* SEARCH */}
+  <div className="search-wrapper">
+    <input
+      type="text"
+      placeholder="Masukan Nama Client . . ."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+      className="search-input"
+    />
+  </div>
+
+  {/* BUTTONS */}
+  <div className="clients-actions">
+    <button className="add-btn" onClick={openAdd}>
+      + Tambah Client
+    </button>
+
+    <button
+      className="add-btn"
+      onClick={handleExport}
     >
-      <button className="add-btn" onClick={openAdd}>
-        + Tambah Client
-      </button>
+      Download Data Client
+    </button>
+  </div>
 
-      <button
-  className="add-btn"
-  onClick={handleExport}
->
-  Export Excel
-</button>
-
-      <input
-        type="text"
-        placeholder="Search nama / bank / negara..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        style={{
-          padding: "12px 14px",
-          borderRadius: "12px",
-          border: "1px solid var(--border)",
-          background: "var(--card)",
-          color: "var(--text)",
-          minWidth: "260px",
-        }}
-      />
-    </div>
+</div>
 
 
       {/* TABLE */}

@@ -131,17 +131,17 @@ export default function SimulasiPencairan() {
           <h2 className="section-title">Biaya Tambahan</h2>
 
           <div className="form-group">
-            <label>Proses Penempatan</label>
+            <label>Biaya Proses Penempatan</label>
             <input type="number" value={prosesPenempatan} onChange={(e) => setProsesPenempatan(e.target.value)} />
           </div>
 
           <div className="form-group">
-            <label>Pelunasan</label>
+            <label>Pelunasan Bank</label>
             <input type="number" value={pelunasan} onChange={(e) => setPelunasan(e.target.value)} />
           </div>
 
           <div className="form-group">
-            <label>Jasa Proses</label>
+            <label>Jasa Proses SHM</label>
             <input type="number" value={jasaProses} onChange={(e) => setJasaProses(e.target.value)} />
           </div>
 

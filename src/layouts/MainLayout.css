@@ -155,15 +155,15 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 18px;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(37, 99, 235, 0.05));
+  border-radius: 50px;
+  background: rgb(255, 255, 255);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 16px -6px rgba(0, 0, 0, 0.2);
   transition: var(--transition-default);
 }
 .brand-logo img {
-  width: 32px;
-  height: 32px;
+  width: 65px;
+  height: 65px;
   object-fit: contain;
 }
 .brand-text h2 {
@@ -638,7 +638,7 @@ body::before {
   background: var(--blue);
   color: white;
   padding: 8px 12px;
-  border-radius: 12px;
+  border-radius: 6px;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -713,27 +713,27 @@ body::before {
   padding: 12px 16px;
   border-radius: 12px;
   border: 1px solid rgb(0, 0, 0);
-  background: rgba(0, 60, 162, 0.129);
+  background: rgba(7, 31, 73, 0.129);
   backdrop-filter: blur(8px);
   color: #ffffff;
   font-size: 14px;
   font-weight: 500;
   outline: none;
   transition: all 0.2s ease;
+  border-color: rgba(0, 0, 0, 0.6);
 }
 
 .search-input:hover,
 .form-field input:hover,
 .form-field select:hover {
-  background: rgba(3, 10, 27, 0.21);
+  background: rgba(21, 76, 171, 0.18);
 }
 
 .search-input:focus,
 .form-field input:focus,
 .form-field select:focus {
-  border-color: rgba(1, 2, 15, 0.6);
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
-  background: rgba(15, 22, 40, 0.8);
+  border-color: rgba(9, 5, 72, 0.519);
+  background: rgba(0, 0, 0, 0.8);
 }
 
 /* khusus select (dropdown custom panah) */
@@ -762,6 +762,7 @@ body::before {
   margin-bottom: 16px;
   display: flex;
   justify-content: flex-start;
+  max-width:250px;
 }
 
 .modal-overlay {
@@ -846,7 +847,19 @@ body::before {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.clients-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
 }
 
 /* =========================================================

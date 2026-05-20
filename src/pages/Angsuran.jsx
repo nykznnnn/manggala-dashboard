@@ -164,23 +164,16 @@ export default function Angsuran() {
         <h2>Angsuran Kredit</h2>
       </div>
 
-      {/* SEARCH */}
-      <div style={{ marginBottom: "16px" }}>
-        <input
-          type="text"
-          placeholder="Search nama / bank..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{
-            padding: "12px 14px",
-            borderRadius: "12px",
-            border: "1px solid var(--border)",
-            background: "var(--card)",
-            color: "var(--text)",
-            minWidth: "260px",
-          }}
-        />
-      </div>
+{/* SEARCH */}
+<div className="search-wrapper">
+<input
+  type="text"
+  placeholder="Masukan Nama Client . . ."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+  className="search-input"
+/>
+</div>
 
       {/* TABLE */}
       <div className="table-wrapper">
