@@ -12,7 +12,7 @@
       rgba(7, 16, 24, 0.611),
       rgba(7, 16, 24, 0.772)
     ),
-    url("/src/assets/login.jpg");
+    url("/src/assets/logo7.png");
 
   background-size: cover;
 
@@ -25,8 +25,9 @@
 
 .login-card {
   width: 100%;
+align-items: center;
 
-  max-width: 420px;
+  max-width: 320px;
 
   background: rgba(255, 255, 255, 0.075);
 
@@ -49,56 +50,41 @@
 }
 
 .login-card h1 {
-  font-size: 34px;
-
+  font-size: 25px;
   color: white;
-
   font-weight: 700;
 }
 
 .login-card p {
   color: rgba(255,255,255,0.6);
-
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .login-card input {
-  height: 52px;
-
-  border-radius: 14px;
-
+  height: 35px;
+width: 80%;
+  border-radius: 6px;
   border: 1px solid rgba(255,255,255,0.08);
-
   background: rgba(255,255,255,0.04);
-
   color: white;
-
   padding: 0 16px;
-
   outline: none;
 }
 
 .login-card button {
-  height: 52px;
-
+  height: 35px;
+width: 40%;
   border: none;
-
-  border-radius: 14px;
-
+  border-radius: 6px;
   background: #3b82f6;
-
   color: white;
-
   font-weight: 600;
-
-  cursor: pointer;
-
+  cursor: ointer;
   transition: 0.2s;
 }
 
 .login-card button:hover {
   transform: translateY(-1px);
-
   opacity: 0.92;
 }
 

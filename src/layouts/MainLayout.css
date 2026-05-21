@@ -419,9 +419,9 @@ body::before {
 }
 
 .status-card:hover { transform: translateY(-3px); }
-.green-card { background: linear-gradient(145deg, #22c55e, #15803d); }
-.red-card { background: linear-gradient(145deg, #ef4444, #b91c1c); }
-.blue-card { background: linear-gradient(145deg, #3b82f6, #1d4ed8); }
+.green-card { background: linear-gradient(145deg, #AB1509, #15803d); }
+.red-card { background: linear-gradient(145deg, #093aab, #AB1509); }
+.blue-card { background: linear-gradient(145deg, #3a3109, #1d4ed8); }
 
 .status-card-content {
   position: relative;

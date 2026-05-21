@@ -55,10 +55,10 @@ export default function Login() {
         className="login-card"
         onSubmit={handleLogin}
       >
-      <h1>Welcome Back!</h1>
+      <h1>Manggala App</h1>
 
 <p>
-  Please sign in to gain access
+  Secure access required.
 </p>
 
         {error && (
