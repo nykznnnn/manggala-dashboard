@@ -58,7 +58,7 @@ export default function Login() {
       <h1>Welcome Back!</h1>
 
 <p>
-  Please sign in first to gain access
+  Please sign in to gain access
 </p>
 
         {error && (
