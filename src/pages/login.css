@@ -25,11 +25,10 @@
 
 .login-card {
   width: 100%;
-align-items: center;
 
-  max-width: 320px;
+  max-width: 420px;
 
-  background: rgba(255, 255, 255, 0.075);
+  background: rgba(108, 108, 108, 0.116);
 
   border: 1px solid rgba(255,255,255,0.08);
 
@@ -43,48 +42,49 @@ align-items: center;
 
   flex-direction: column;
 
-  gap: 16px;
+  gap: 8px;
 
   box-shadow:
     0 20px 60px rgba(0,0,0,0.35);
 }
 
 .login-card h1 {
-  font-size: 25px;
+  font-size: 34px;
   color: white;
+
   font-weight: 700;
 }
 
 .login-card p {
   color: rgba(255,255,255,0.6);
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 
 .login-card input {
   height: 35px;
-width: 80%;
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.04);
-  color: white;
+  background: rgba(0, 0, 0, 0.261);
+  color: rgb(255, 255, 255);
   padding: 0 16px;
   outline: none;
 }
 
 .login-card button {
   height: 35px;
-width: 40%;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   background: #3b82f6;
   color: white;
   font-weight: 600;
-  cursor: ointer;
+  cursor: pointer;
   transition: 0.2s;
+  margin-top: 40px;
 }
 
 .login-card button:hover {
   transform: translateY(-1px);
+
   opacity: 0.92;
 }
 
@@ -100,4 +100,16 @@ width: 40%;
   border-radius: 12px;
 
   font-size: 14px;
+}
+
+.forgot-password {
+  color: #f63b3b;
+  font-size: 14px;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+.forgot-password:hover {
+  color: #fa6060;
+  text-decoration: underline;
 }

@@ -55,10 +55,11 @@ export default function Login() {
         className="login-card"
         onSubmit={handleLogin}
       >
-      <h1>Manggala App</h1>
+      <h1>Welcome Back!</h1>
 
 <p>
   Secure access required.
+
 </p>
 
         {error && (
@@ -84,7 +85,14 @@ export default function Login() {
             setPassword(e.target.value)
           }
         />
-
+<a
+  href="https://wa.me/6283892623424?text=What's%20the%20password%3F"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="forgot-password"
+>
+  - Lupa password?
+</a>
         <button
           type="submit"
           disabled={loading}
