@@ -55,10 +55,10 @@ export default function Login() {
         className="login-card"
         onSubmit={handleLogin}
       >
-      <h1>Good Evening</h1>
+      <h1>Welcome Back!</h1>
 
 <p>
-  Ready to continue your financial journey?
+  Please sign in first to gain access
 </p>
 
         {error && (
