@@ -97,7 +97,7 @@ useEffect(() => {
 
       navigate("/login");
 
-    }, 1 * 60 * 1000); // 15 menit
+    }, 60 * 60 * 1000); // 15 menit
   };
 
   // activity listener

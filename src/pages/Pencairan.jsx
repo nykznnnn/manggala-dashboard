@@ -271,21 +271,109 @@ export default function Pencairan() {
               </button>
             </div>
 
-            <form className="client-form" onSubmit={handleSubmit}>
-              <input name="bank" value={form.bank} onChange={handleChange} />
-              <input type="date" name="tanggalCair" value={form.tanggalCair} onChange={handleChange} />
-              <input name="tenor" type="number" value={form.tenor} onChange={handleChange} />
-              <input name="jaminan" type="number" value={form.jaminan} onChange={handleChange} />
-              <input name="provisiADM" type="number" value={form.provisiADM} onChange={handleChange} />
-              <input name="blokir" type="number" value={form.blokir} onChange={handleChange} />
-              <input name="angsuranBulanan" type="number" value={form.angsuranBulanan} onChange={handleChange} />
-              <input name="plafond" type="number" value={form.plafond} onChange={handleChange} />
-              <input name="kwitansi" value={form.kwitansi} onChange={handleChange} />
+<form className="client-form" onSubmit={handleSubmit}>
 
-              <button type="submit" className="submit-btn">
-                Update
-              </button>
-            </form>
+  <div className="form-field">
+    <label>Bank</label>
+    <input
+      name="bank"
+      value={form.bank}
+      onChange={handleChange}
+      placeholder="Masukan Bank"
+    />
+  </div>
+
+  <div className="form-field">
+    <label>Tanggal Cair</label>
+    <input
+      type="date"
+      name="tanggalCair"
+      value={form.tanggalCair}
+      onChange={handleChange}
+    />
+  </div>
+
+  <div className="form-field">
+    <label>Tenor</label>
+    <input
+      type="number"
+      name="tenor"
+      value={form.tenor}
+      onChange={handleChange}
+      placeholder="Masukan Tenor"
+    />
+  </div>
+
+  <div className="form-field">
+    <label>Jaminan</label>
+    <input
+      type="number"
+      name="jaminan"
+      value={form.jaminan}
+      onChange={handleChange}
+      placeholder="Masukan Jaminan"
+    />
+  </div>
+
+  <div className="form-field">
+    <label>Provisi / ADM</label>
+    <input
+      type="number"
+      name="provisiADM"
+      value={form.provisiADM}
+      onChange={handleChange}
+      placeholder="Masukan Provisi"
+    />
+  </div>
+
+  <div className="form-field">
+    <label>Saldo Blokir</label>
+    <input
+      type="number"
+      name="blokir"
+      value={form.blokir}
+      onChange={handleChange}
+      placeholder="Masukan Saldo Blokir"
+    />
+  </div>
+
+  <div className="form-field">
+    <label>Angsuran Bulanan</label>
+    <input
+      type="number"
+      name="angsuranBulanan"
+      value={form.angsuranBulanan}
+      onChange={handleChange}
+      placeholder="Masukan Angsuran"
+    />
+  </div>
+
+  <div className="form-field">
+    <label>Plafond</label>
+    <input
+      type="number"
+      name="plafond"
+      value={form.plafond}
+      onChange={handleChange}
+      placeholder="Masukan Plafond"
+    />
+  </div>
+
+  <div className="form-field" style={{ gridColumn: "span 2" }}>
+    <label>Kwitansi</label>
+    <input
+      name="kwitansi"
+      value={form.kwitansi}
+      onChange={handleChange}
+      placeholder="Masukan Link Kwitansi"
+    />
+  </div>
+
+  <button className="submit-btn" type="submit">
+    Simpan Data
+  </button>
+
+</form>
           </div>
         </div>
       )}
