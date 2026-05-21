@@ -13,7 +13,7 @@ import {
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/config";
-
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 
 import "./MainLayout.css";
@@ -37,6 +37,7 @@ export default function MainLayout() {
 
   const handleLogout = async () => {
     await signOut(auth);
+    alert("Session expired. Please login again.");
     navigate("/login");
   };
 
@@ -82,6 +83,43 @@ const page = {
   },
 };
 
+useEffect(() => {
+
+  let timeout;
+
+  const resetTimer = () => {
+
+    clearTimeout(timeout);
+
+    timeout = setTimeout(async () => {
+
+      await signOut(auth);
+
+      navigate("/login");
+
+    }, 1 * 60 * 1000); // 15 menit
+  };
+
+  // activity listener
+  window.addEventListener("mousemove", resetTimer);
+  window.addEventListener("keydown", resetTimer);
+  window.addEventListener("click", resetTimer);
+  window.addEventListener("scroll", resetTimer);
+
+  // start timer
+  resetTimer();
+
+  return () => {
+
+    clearTimeout(timeout);
+
+    window.removeEventListener("mousemove", resetTimer);
+    window.removeEventListener("keydown", resetTimer);
+    window.removeEventListener("click", resetTimer);
+    window.removeEventListener("scroll", resetTimer);
+  };
+
+}, [navigate]);
   return (
     <div className="main-layout">
 

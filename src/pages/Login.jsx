@@ -55,11 +55,11 @@ export default function Login() {
         className="login-card"
         onSubmit={handleLogin}
       >
-        <h1>Selamat Datang</h1>
+      <h1>Good Evening</h1>
 
-        <p>
-          Client Management System
-        </p>
+<p>
+  Ready to continue your financial journey?
+</p>
 
         {error && (
           <div className="login-error">

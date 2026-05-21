@@ -8,11 +8,17 @@
   justify-content: center;
 
   background:
-    radial-gradient(
-      circle at top,
-      #122033,
-      #071018
-    );
+    linear-gradient(
+      rgba(7, 16, 24, 0.611),
+      rgba(7, 16, 24, 0.772)
+    ),
+    url("/src/assets/login.jpeg");
+
+  background-size: cover;
+
+  background-position: center;
+
+  background-repeat: no-repeat;
 
   padding: 24px;
 }
@@ -22,11 +28,11 @@
 
   max-width: 420px;
 
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.075);
 
   border: 1px solid rgba(255,255,255,0.08);
 
-  backdrop-filter: blur(18px);
+  backdrop-filter: bg-lblur(18px);
 
   border-radius: 28px;
 

@@ -45,12 +45,7 @@ export default function SimulasiPencairan() {
     const PROVISI_ADM_PERCENT = 0.03;
     const ASURANSI_BANK_PERCENT = t > 47 ? 0.01232 : 0.00906;
 
-    const JASA_AGENCY_FLAT =
-      p <= 125000000
-        ? 10000000
-        : p <= 175000000
-        ? 12500000
-        : 15000000;
+    const JASA_AGENCY_FLAT = 15000000;
 
     const JAMINAN_AGENCY_FLAT = p > 201000000 ? 20000000 : 10000000;
     const AKTA_OTENTIK = 4000000;
@@ -155,35 +150,40 @@ export default function SimulasiPencairan() {
         {/* RESULT */}
         <div className="simulasi-card result-panel">
 
-          <div className="breakdown-item">
-            <span>Saldo Blokir</span>
-            <strong>Rp {format(result.saldoBlokirCalc)}</strong>
-          </div>
+<div className="breakdown-list">
 
-          <div className="breakdown-item">
-            <span>Angsuran / Bulan</span>
-            <strong>Rp {format(result.angsuranPerBulan)}</strong>
-          </div>
+  <div className="breakdown-item">
+    <span>Saldo Blokir</span>
+    Rp {format(result.saldoBlokirCalc)}
+  </div>
 
-          <div className="breakdown-item">
-            <span>Asuransi</span>
-            <strong>Rp {format(result.asuransi)}</strong>
-          </div>
+  <div className="breakdown-item">
+    <span>Angsuran / Bulan</span>
+    Rp {format(result.angsuranPerBulan)}
+  </div>
 
-          <div className="breakdown-item">
-            <span>Jasa Agency</span>
-            <strong>Rp {format(result.JASA_AGENCY_FLAT)}</strong>
-          </div>
+  <div className="breakdown-item">
+    <span>Asuransi</span>
+    Rp {format(result.asuransi)}
+  </div>
 
-          <div className="breakdown-item">
-            <span>Jaminan Agency</span>
-            <strong>Rp {format(result.JAMINAN_AGENCY_FLAT)}</strong>
-          </div>
+  <div className="breakdown-item">
+    <span>Jasa Agency</span>
+    Rp {format(result.JASA_AGENCY_FLAT)}
+  </div>
 
-          <div className="breakdown-item">
-            <span>Total Pengeluaran</span>
-            <strong>Rp {format(result.totalPengeluaran)}</strong>
-          </div>
+  <div className="breakdown-item">
+    <span>Jaminan Agency</span>
+    Rp {format(result.JAMINAN_AGENCY_FLAT)}
+  </div>
+
+  <div className="breakdown-item">
+    <span>Total Pengeluaran</span>
+    Rp {format(result.totalPengeluaran)}
+  </div>
+
+</div>
+
           <div className="hero-result">
             <span>Sisa Uang Pencairan</span>
             <h1>Rp {format(result.sisaUang)}</h1>
