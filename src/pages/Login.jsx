@@ -58,7 +58,7 @@ export default function Login() {
       <h1>Selamat Datang!</h1>
 
 <p>
-  Silahkan login untuk bisa masuk ke Dashboard Manggala Group
+  Silahkan login untuk masuk ke Dashboard Manggala Group
 
 </p>
 
