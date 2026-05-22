@@ -21,7 +21,7 @@ body {
   font-family: "Inter", sans-serif;
   background: var(--bg-primary);
   color: var(--text-primary);
-  overflow: hidden;
+  overflow-x: hidden;
   position: relative;
 }
 
@@ -144,26 +144,19 @@ body::before {
   z-index: 2;
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 48px;
+  gap: 11px;
+  margin-bottom: 24px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--border-light);
 }
 .brand-logo {
-  width: 52px;
-  height: 52px;
+  width: 50px;
+  height: 50px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50px;
-  background: rgb(255, 255, 255);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: var(--transition-default);
 }
 .brand-logo img {
-  width: 65px;
-  height: 65px;
-  object-fit: contain;
+  max-width: 100%;
+  height: auto;
 }
 .brand-text h2 {
   font-size: 18px;
@@ -173,7 +166,7 @@ body::before {
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  margin-bottom: 4px;
+
 }
 .brand-text span {
   font-size: 12px;
@@ -236,7 +229,6 @@ body::before {
   color: #3b82f6;
   text-shadow: 0 0 6px rgba(59, 130, 246, 0.5);
 }
-.sidebar-link.active::before { display: none; }
 
 .sidebar-footer {
   margin-top: auto;
@@ -309,9 +301,7 @@ body::before {
 .main-content-wrapper {
   width: 100%;
   min-height: 100%;
-  border-radius: 30px;
 }
-.dashboard-page { width: 100%; }
 
 /* =========================================================
    DASHBOARD HEADER
@@ -433,18 +423,9 @@ body::before {
   width: 100%;
   min-width: 0;
 }
-.status-card-content > div:last-child {
-  min-width: 0;
-  flex: 1;
-}
 
-.status-card h2 {
-  font-size: clamp(20px, 2vw, 28px);
 
-  line-height: 1.2;
 
-  word-break: break-word;
-}
 .status-icon {
   width: 50px;
   height: 50px;
@@ -551,7 +532,6 @@ body::before {
   overflow: hidden;
   border-radius: 8px;
   background: var(--card-bg);
-  border: 0 solid rgb(0, 0, 0);
   backdrop-filter: blur(18px);
 }
 .table-wrapper {
@@ -559,8 +539,7 @@ body::before {
   border: 1px solid var(--card-border);
   border-radius: 8px;
   overflow: auto;
-  max-height: 70vh;
- height: 80%;
+  max-height: 70dvh;
   position: relative;
 }
 .data-table {
@@ -688,6 +667,8 @@ body::before {
   transform: translateY(-2px);
 }
 .submit-btn {
+  grid-column: span 2;
+  margin-top: 8px;
   padding: 12px;
   font-size: 15px;
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
@@ -706,10 +687,10 @@ body::before {
   font-weight: 600;
   color: white;
 }
-.status-merah { background: #dc2626df; }
-.status-kuning { background: #eab208d8; color: black; }
-.status-hijau { background: #16a34ae3; }
-.status-biru { background: #2564ebe2; }
+.status-merah { background: #dc2626; }
+.status-kuning { background: #eab208; color: black; }
+.status-hijau { background: #16a34a; }
+.status-biru { background: #2564eb; }
 
 /* =========================================================
    SCROLLBAR (table wrapper)
@@ -872,10 +853,6 @@ body::before {
   transform: scale(1.05);
 }
 .close-btn:active { transform: scale(0.95); }
-.submit-btn {
-  grid-column: span 2;
-  margin-top: 8px;
-}
 
 /* =========================================================
    PAGE HEADER, CLIENTS HEADER
@@ -894,11 +871,6 @@ body::before {
 .clients-actions {
   display: flex;
   gap: 12px;
-}
-
-.search-wrapper {
-  display: flex;
-  align-items: center;
 }
 
 /* =========================================================
@@ -1088,9 +1060,6 @@ body::before {
     min-width: 700px;
   }
 
-  .search-wrapper {
-    justify-content: center;
-  }
 }
 
 .status-popup {
