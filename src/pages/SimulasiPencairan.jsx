@@ -27,18 +27,19 @@ export default function SimulasiPencairan() {
     const t = toNum(tenor);
     const b = toNum(saldoBlokirBulan);
     if (p <= 0 || t <= 0) {
-      return {
-        angsuranPerBulan: 0,
-        saldoBlokirCalc: 0,
-        admProvisi: 0,
-        asuransi: 0,
-        JASA_AGENCY_FLAT: 0,
-        JAMINAN_AGENCY_FLAT: 0,
-        AKTA_OTENTIK: 0,
-        APHT_NOTARIS: 0,
-        totalPengeluaran: 0,
-        sisaUang: 0,
-      };
+return {
+  plafond: 0,
+  angsuranPerBulan: 0,
+  saldoBlokirCalc: 0,
+  admProvisi: 0,
+  asuransi: 0,
+  JASA_AGENCY_FLAT: 0,
+  JAMINAN_AGENCY_FLAT: 0,
+  AKTA_OTENTIK: 0,
+  APHT_NOTARIS: 0,
+  totalPengeluaran: 0,
+  sisaUang: 0,
+};
     }
 
     const BUNGA_BANK = 0.01;
@@ -76,19 +77,22 @@ export default function SimulasiPencairan() {
       asuransi +
       saldoBlokirCalc;
 
-    return {
-      angsuranPerBulan,
-      saldoBlokirCalc,
-      admProvisi,
-      asuransi,
-      JASA_AGENCY_FLAT,
-      JAMINAN_AGENCY_FLAT,
-      AKTA_OTENTIK,
-      APHT_NOTARIS,
-      totalPengeluaran,
-      sisaUang: p - totalPengeluaran,
-    };
+return {
+  plafond: p,
+  angsuranPerBulan,
+  saldoBlokirCalc,
+  admProvisi,
+  asuransi,
+  JASA_AGENCY_FLAT,
+  JAMINAN_AGENCY_FLAT,
+  AKTA_OTENTIK,
+  APHT_NOTARIS,
+  totalPengeluaran,
+  sisaUang: p - totalPengeluaran,
+};
   }, [plafond, tenor, saldoBlokirBulan, prosesPenempatan, pelunasan, jasaProses, biayaLain]);
+
+  
 
   return ( // lanjutkan dengan JSX yang sudah ada
     <div className="simulasi-page">
@@ -153,8 +157,8 @@ export default function SimulasiPencairan() {
 <div className="breakdown-list">
 
   <div className="breakdown-item">
-    <span>Saldo Blokir</span>
-    Rp {format(result.saldoBlokirCalc)}
+    <span>Plafond Pinjaman</span>
+    Rp {format(result.plafond)}
   </div>
 
   <div className="breakdown-item">
@@ -162,19 +166,45 @@ export default function SimulasiPencairan() {
     Rp {format(result.angsuranPerBulan)}
   </div>
 
+</div>
+
+<div className="breakdown-list">
+<div className="breakdown-item">
+  <span>
+    Saldo Blokir ({saldoBlokirBulan} Bulan)
+  </span>
+    Rp {format(result.saldoBlokirCalc)}
+</div>
+
+    <div className="breakdown-item">
+    <span>Jaminan Agency</span>
+    Rp {format(result.JAMINAN_AGENCY_FLAT)}
+  </div>
+
+
+ <div className="breakdown-item">
+    <span>Akta Otentik</span>
+    Rp {format(result.AKTA_OTENTIK)}
+  </div>
+
   <div className="breakdown-item">
-    <span>Asuransi</span>
+    <span>ADM - Provisi Bank</span>
+    Rp {format(result.admProvisi)}
+  </div>
+
+  <div className="breakdown-item">
+    <span>APHT Notaris Bank</span>
+    Rp {format(result.APHT_NOTARIS)}
+  </div>
+
+  <div className="breakdown-item">
+    <span>Asuransi Bank</span>
     Rp {format(result.asuransi)}
   </div>
 
   <div className="breakdown-item">
-    <span>Jasa Agency</span>
+    <span>Jasa Agency & Legal</span>
     Rp {format(result.JASA_AGENCY_FLAT)}
-  </div>
-
-  <div className="breakdown-item">
-    <span>Jaminan Agency</span>
-    Rp {format(result.JAMINAN_AGENCY_FLAT)}
   </div>
 
   <div className="breakdown-item">

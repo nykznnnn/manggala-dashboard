@@ -107,23 +107,49 @@ async function updateStatus(clientId, index, status, clients, setSelectedCell) {
 export default function Angsuran() {
   const { clients = [] } = useContext(ClientsContext);
 
-  const [selectedCell, setSelectedCell] = useState(null);
+const [selectedCell, setSelectedCell] = useState(null);
+const [popupPosition, setPopupPosition] = useState({
+  x: 0,
+  y: 0,
+});
   const [search, setSearch] = useState("");
+  const tableWrapperRef = useRef(null);
   const popupRef = useRef(null);
 
-  /* =========================
-     CLOSE POPUP OUTSIDE CLICK
-  ========================= */
-  useEffect(() => {
-    function handleClickOutside(e) {
-      if (popupRef.current && !popupRef.current.contains(e.target)) {
-        setSelectedCell(null);
-      }
+/* =========================
+   CLOSE POPUP OUTSIDE CLICK
+========================= */
+useEffect(() => {
+  function handleClickOutside(e) {
+    if (popupRef.current && !popupRef.current.contains(e.target)) {
+      setSelectedCell(null);
     }
+  }
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  document.addEventListener("mousedown", handleClickOutside);
+
+  return () =>
+    document.removeEventListener("mousedown", handleClickOutside);
+}, []);
+
+/* =========================
+   CLOSE POPUP ON SCROLL
+========================= */
+useEffect(() => {
+  const wrapper = tableWrapperRef.current;
+
+  if (!wrapper) return;
+
+  const closePopup = () => {
+    setSelectedCell(null);
+  };
+
+  wrapper.addEventListener("scroll", closePopup);
+
+  return () => {
+    wrapper.removeEventListener("scroll", closePopup);
+  };
+}, []);
 
   /* =========================
      FILTER CLIENTS (SUDAH CAIR ONLY)
@@ -141,11 +167,12 @@ export default function Angsuran() {
 
       return matchSearch && matchStatus;
     })
-    .sort((a, b) =>
-      (a.nama || "").localeCompare(b.nama || "", "id", {
-        sensitivity: "base",
-      })
-    );
+.sort((a, b) => {
+  const dateA = normalizeDate(a.tanggalCair) || 0;
+  const dateB = normalizeDate(b.tanggalCair) || 0;
+
+  return dateB - dateA;
+});
 
   /* =========================
      GLOBAL MAX TENOR
@@ -176,7 +203,7 @@ export default function Angsuran() {
 </div>
 
       {/* TABLE */}
-      <div className="table-wrapper">
+      <div className="table-wrapper" ref={tableWrapperRef}>
         <table className="data-table angsuran-table">
           <thead>
             <tr>
@@ -218,105 +245,41 @@ export default function Angsuran() {
                     const active = i < tenor;
 
                     return (
-                      <td key={i} style={{ position: "relative" }}>
-                        <div
-                          className={`angsuran-box ${getStatusClass(
-                            angsuran?.status
-                          )}`}
-                          style={{
-                            cursor: active ? "pointer" : "not-allowed",
-                            opacity: active ? 1 : 0.3,
-                            filter: active ? "none" : "grayscale(1)",
-                          }}
-                          onClick={() =>
-                            active && setSelectedCell(cellKey)
-                          }
-                        >
+                      <td key={i} >
+<div
+  className={`angsuran-box ${getStatusClass(
+    angsuran?.status
+  )} ${!active ? "disabled" : ""}`}
+onClick={(e) => {
+  if (!active) return;
+
+  const rect = e.currentTarget.getBoundingClientRect();
+
+const popupWidth = 190;
+
+let x = rect.left;
+
+if (x + popupWidth > window.innerWidth) {
+  x = window.innerWidth - popupWidth - 16;
+}
+
+setPopupPosition({
+  x,
+  y: rect.bottom + 6,
+});
+
+  setSelectedCell({
+    key: cellKey,
+    clientId: client.id,
+    index: i,
+  });
+}}
+>
                           {active
                             ? generateMonth(client.tanggalCair, i)
                             : "-"}
                         </div>
 
-                        {/* POPUP */}
-                        {selectedCell === cellKey && active && (
-                          <div
-                            ref={popupRef}
-                            style={{
-                              position: "absolute",
-                              top: "32px",
-                              left: "0",
-                              background: "rgba(18,18,18,0.95)",
-                              backdropFilter: "blur(10px)",
-                              border:
-                                "1px solid rgba(255,255,255,0.08)",
-                              padding: "6px",
-                              zIndex: 9999,
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "4px",
-                              borderRadius: "10px",
-                              minWidth: "160px",
-                              boxShadow:
-                                "0 18px 40px rgba(0,0,0,0.45)",
-                            }}
-                          >
-                            <button
-                              onClick={() =>
-                                updateStatus(
-                                  client.id,
-                                  i,
-                                  "merah",
-                                  clients,
-                                  setSelectedCell
-                                )
-                              }
-                            >
-                              🔴 Belum Bayar
-                            </button>
-
-                            <button
-                              onClick={() =>
-                                updateStatus(
-                                  client.id,
-                                  i,
-                                  "kuning",
-                                  clients,
-                                  setSelectedCell
-                                )
-                              }
-                            >
-                              🟡 Debitur
-                            </button>
-
-                            <button
-                              onClick={() =>
-                                updateStatus(
-                                  client.id,
-                                  i,
-                                  "hijau",
-                                  clients,
-                                  setSelectedCell
-                                )
-                              }
-                            >
-                              🟢 Manggala
-                            </button>
-
-                            <button
-                              onClick={() =>
-                                updateStatus(
-                                  client.id,
-                                  i,
-                                  "biru",
-                                  clients,
-                                  setSelectedCell
-                                )
-                              }
-                            >
-                              🔵 Blokir
-                            </button>
-                          </div>
-                        )}
                       </td>
                     );
                   })}
@@ -325,6 +288,84 @@ export default function Angsuran() {
             })}
           </tbody>
         </table>
+        {selectedCell && (
+  <div
+    ref={popupRef}
+    className="status-popup"
+    style={{
+      position: "fixed",
+      left: popupPosition.x,
+      top: popupPosition.y,
+      zIndex: 9999,
+    }}
+  >
+
+    <button
+      className="status-option merah"
+      onClick={() =>
+        updateStatus(
+          selectedCell.clientId,
+          selectedCell.index,
+          "merah",
+          clients,
+          setSelectedCell
+        )
+      }
+    >
+      <span className="dot"></span>
+      Belum Bayar
+    </button>
+
+    <button
+      className="status-option kuning"
+      onClick={() =>
+        updateStatus(
+          selectedCell.clientId,
+          selectedCell.index,
+          "kuning",
+          clients,
+          setSelectedCell
+        )
+      }
+    >
+      <span className="dot"></span>
+      Debitur
+    </button>
+
+    <button
+      className="status-option hijau"
+      onClick={() =>
+        updateStatus(
+          selectedCell.clientId,
+          selectedCell.index,
+          "hijau",
+          clients,
+          setSelectedCell
+        )
+      }
+    >
+      <span className="dot"></span>
+      Manggala
+    </button>
+
+    <button
+      className="status-option biru"
+      onClick={() =>
+        updateStatus(
+          selectedCell.clientId,
+          selectedCell.index,
+          "biru",
+          clients,
+          setSelectedCell
+        )
+      }
+    >
+      <span className="dot"></span>
+      Saldo Blokir
+    </button>
+
+  </div>
+)}
       </div>
     </div>
   );

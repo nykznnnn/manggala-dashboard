@@ -698,18 +698,18 @@ body::before {
    STATUS BOX (angsuran)
 ========================================================= */
 .angsuran-box {
-  min-width: 75px;
+  min-width: 65px;
   font-size: 12px;
-  padding: 8px 6px;
+  padding: 4px 4px;
   text-align: center;
-  border-radius: 10px;
+  border-radius: 4px;
   font-weight: 600;
   color: white;
 }
-.status-merah { background: #dc2626; }
-.status-kuning { background: #eab308; color: black; }
-.status-hijau { background: #16a34a; }
-.status-biru { background: #2563eb; }
+.status-merah { background: #dc2626df; }
+.status-kuning { background: #eab208d8; color: black; }
+.status-hijau { background: #16a34ae3; }
+.status-biru { background: #2564ebe2; }
 
 /* =========================================================
    SCROLLBAR (table wrapper)
@@ -1092,3 +1092,98 @@ body::before {
     justify-content: center;
   }
 }
+
+.status-popup {
+  position: absolute;
+  top: 38px;
+  left: 0;
+
+  width: 180px;
+
+  padding: 8px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  border-radius: 16px;
+
+  background: rgba(15,15,15,0.92);
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+
+  z-index: 9999;
+}
+
+.status-option {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  padding: 11px 12px;
+
+  border-radius: 12px;
+
+  background: transparent;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  cursor: pointer;
+
+  transition: all 0.18s ease;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.status-option:hover {
+  background: rgba(255,255,255,0.06);
+  transform: translateX(2px);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.status-option.merah .dot {
+  background: #ff4d4f;
+}
+
+.status-option.kuning .dot {
+  background: #facc15;
+}
+
+.status-option.hijau .dot {
+  background: #22c55e;
+}
+
+.status-option.biru .dot {
+  background: #3b82f6;
+}
+
+.angsuran-box.disabled {
+  cursor: default;
+
+  opacity: 0.45;
+
+  background: rgba(255,255,255,0.03);
+  border: 1px dashed rgba(255,255,255,0.06);
+
+  color: rgba(255,255,255,0.28);
+
+  filter: saturate(0);
+
+  pointer-events: none;
+}
+
