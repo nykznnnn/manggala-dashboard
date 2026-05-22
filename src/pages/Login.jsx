@@ -55,10 +55,10 @@ export default function Login() {
         className="login-card"
         onSubmit={handleLogin}
       >
-      <h1>Welcome Back!</h1>
+      <h1>Selamat Datang!</h1>
 
 <p>
-  Secure access required.
+  Silahkan login untuk bisa masuk ke Dashboard Manggala Group
 
 </p>
 
