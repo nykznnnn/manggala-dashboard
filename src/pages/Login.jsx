@@ -91,7 +91,7 @@ export default function Login() {
   rel="noopener noreferrer"
   className="forgot-password"
 >
-  - Lupa password?
+  - Minta password?
 </a>
         <button
           type="submit"
